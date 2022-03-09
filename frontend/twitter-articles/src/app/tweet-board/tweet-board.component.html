@@ -1,0 +1,28 @@
+<div class="tweetsBoard">
+  <h2><strong>Top Tweet του hashtag</strong></h2>
+  <h4>400 tweets χρησιμοποιήθηκαν για τον συσχετικό με τα άρθρα</h4>
+  <div *ngFor="let tweet of tweets" class="trend">
+    <a
+      class="nostyle"
+      href="https://twitter.com/{{ tweet.userScreenName }}/status/{{
+        tweet.tweetID
+      }}"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <div class="header">
+        <span class="screenName">{{ tweet.userScreenName }} · </span>
+        <span class="date">{{ tweet.date | date: "d/M H:mm":"+0000" }}</span>
+      </div>
+      <div class="fulltext">{{ tweet.fullText }}</div>
+      <div class="retweet">
+        <i class="fa fa-retweet" aria-hidden="true"></i>
+        <div class="retweetNumber">{{ tweet.RTCount }}</div>
+      </div>
+    </a>
+  </div>
+
+  <h2 class="searchQuery">
+    <i class="fab fa-twitter"></i> {{ hashtagSelected }}
+  </h2>
+</div>

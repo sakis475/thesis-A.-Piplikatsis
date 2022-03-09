@@ -1,0 +1,123 @@
+<h1 class="globalTitle titleSearch">
+  &#10097;&#10097; Αναζήτηση αποτελεσμάτων
+</h1>
+
+<div class="searchBox">
+  <input
+    type="text"
+    [(ngModel)]="searchKeywords"
+    (ngModelChange)="search()"
+    class="form-control search-input"
+    placeholder="Αναζήτηση άρθρων"
+  />
+  <!-- <input class="form-check-input" type="radio" value="dog"
+[(ngModel)]="dog.value" name="gob" value="i" [checked]="true"
+(change)="onItemChange($event.target.value)"/> -->
+  <fieldset id="toggleSearch">
+    <label *ngFor="let choice of field.choices">
+      <input
+        [ngModel]="field.selected"
+        (ngModelChange)="onItemChange($event)"
+        type="radio"
+        value="{{ choice }}"
+      />{{ choice }}
+    </label>
+  </fieldset>
+
+  <div class="searchResultsBox" *ngIf="searchResults">
+    <table id="searchTable">
+      <tr>
+        <th (click)="clickSort('articleTitle')" class="header">
+          <div class="tableHeader">
+            Άρθρο
+            <i
+              class="fas fa-chevron-down"
+              *ngIf="sortActive !== 'articleTitle'"
+            ></i>
+            <i
+              class="fas fa-chevron-up"
+              *ngIf="sortActive === 'articleTitle'"
+            ></i>
+          </div>
+        </th>
+        <th (click)="clickSort('articleSource')" class="header">
+          <div class="tableHeader">
+            Πηγή
+            <i
+              class="fas fa-chevron-down"
+              *ngIf="sortActive !== 'articleSource'"
+            ></i>
+            <i
+              class="fas fa-chevron-up"
+              *ngIf="sortActive === 'articleSource'"
+            ></i>
+          </div>
+        </th>
+        <th (click)="clickSort('articleCategory')" class="header">
+          <div class="tableHeader">
+            Κατηγορία
+            <i
+              class="fas fa-chevron-down"
+              *ngIf="sortActive !== 'articleCategory'"
+            ></i>
+            <i
+              class="fas fa-chevron-up"
+              *ngIf="sortActive === 'articleCategory'"
+            ></i>
+          </div>
+        </th>
+        <th (click)="clickSort('articleDate')" class="header">
+          <div class="tableHeader">
+            Ημερ. Άρθρου
+            <i
+              class="fas fa-chevron-down"
+              *ngIf="sortActive !== 'articleDate'"
+            ></i>
+            <i
+              class="fas fa-chevron-up"
+              *ngIf="sortActive === 'articleDate'"
+            ></i>
+          </div>
+        </th>
+        <th (click)="clickSort('cosSimil')" class="header">
+          <div class="tableHeader">
+            Σχετικότητα
+            <i
+              class="fas fa-chevron-down"
+              *ngIf="sortActive !== 'cosSimil'"
+            ></i>
+            <i class="fas fa-chevron-up" *ngIf="sortActive === 'cosSimil'"></i>
+          </div>
+        </th>
+        <th (click)="clickSort('searchQuery')" class="header">
+          <div class="tableHeader">
+            Τάση
+            <i
+              class="fas fa-chevron-down"
+              *ngIf="sortActive !== 'searchQuery'"
+            ></i>
+            <i
+              class="fas fa-chevron-up"
+              *ngIf="sortActive === 'searchQuery'"
+            ></i>
+          </div>
+        </th>
+      </tr>
+
+      <tr *ngFor="let article of searchResults; let i = index">
+        <td>
+          <a href="{{ article.articleLink }}">{{ article.articleTitle }}</a>
+        </td>
+        <td>{{ article.articleSource }}</td>
+        <td>{{ article.articleCategory }}</td>
+        <td>{{ article.articleDate | date: "dd/MM HH:mm":"+0000" }}</td>
+        <td>
+          <div class="{{ article.cosSimil | similarity }}">
+            {{ article.cosSimil | similarity }}
+          </div>
+        </td>
+        <td>{{ article.searchQuery }}</td>
+      </tr>
+    </table>
+  </div>
+</div>

@@ -10,9 +10,8 @@ services:
       - database
     networks:
       twitter_articles:
-        ipv4_address: <your-fixed-local-ipv4_address>
-    environment:
-      - TZ=Europe/Athens
+        ipv4_address: 172.24.0.2 #<or your-docker-fixed-local-ipv4_address>
+
   database:
     restart: always
     build: ./mongoDump/database
@@ -21,11 +20,10 @@ services:
       - 27017:27017
     networks:
       twitter_articles:
-        ipv4_address: <your-fixed-local-ipv4_address>
+        ipv4_address: 172.24.0.4 #<or your-docker-fixed-local-ipv4_address>
     volumes:
       - ./data:/data/db
-    environment:
-      - TZ=Europe/Athens
+
   pythonscript:
     restart: always
     build: ./python
@@ -34,11 +32,10 @@ services:
       - database
     networks:
       twitter_articles:
-        ipv4_address: <your-fixed-local-ipv4_address>
-    environment:
-      - TZ=Europe/Athens
+        ipv4_address: 172.24.0.3 #<or your-docker-fixed-local-ipv4_address>
+
 networks:
   twitter_articles:
     ipam:
       config:
-        - subnet: <your-fixed-local-subnet>
+        - subnet: 172.24.0.0/24 #<or your-docker-fixed-local-subnet>

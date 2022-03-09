@@ -1,0 +1,50 @@
+<link
+  rel="stylesheet"
+  href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+  integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
+  crossorigin="anonymous"
+/>
+<div class="articlesBoard">
+  <h2>Ειδήσεις που βρέθηκαν:</h2>
+  <h4>σε σχέση με το επιλεγμένο hashtag</h4>
+  <div class="article" *ngFor="let article of articles; let i = index">
+    <div class="title">
+      {{ i + 1 }}.
+      <a
+        href="{{ article.articleLink }}"
+        class="titleLink"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {{ article.articleTitle }}</a
+      >
+    </div>
+
+    <div class="sourcendSimilarity">
+      <p class="source">
+        Πηγή: <strong>{{ article.articleSource }}</strong>
+      </p>
+
+      <div
+        class="{{ article.cosSimil | similarity }} similarityTag box-shadow-3d"
+        data-tooltip="Πόσο σχετικό είναι το άρθρο με τα tweets του hashtag"
+        data-flow="left"
+      >
+        {{ article.cosSimil | similarity }}
+        {{ article.cosSimil | number: "1.0-0" }}
+      </div>
+    </div>
+
+    <div class="dateDiffArtDate">
+      <p class="dateArticle">
+        Ημερ. Άρθρου: {{ article.articleDate | date: "d/M H:mm":"+0000" }}
+      </p>
+
+      {{ article.diffDate }}
+    </div>
+  </div>
+
+  <h2 class="searchQuery">
+    <i class="fas fa-search"></i> {{ hashtagSelected }}
+  </h2>
+</div>

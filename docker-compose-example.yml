@@ -1,0 +1,44 @@
+version: '3'
+services:
+  node:
+    restart: always
+    build: ./nodeServer
+    container_name: nodeserver
+    ports:
+      - 5000:5000
+    depends_on:
+      - database
+    networks:
+      twitter_articles:
+        ipv4_address: 172.24.0.2 #<or your-docker-fixed-local-ipv4_address>
+    environment:
+      - TZ=Europe/Athens
+  database:
+    restart: always
+    build: ./mongoDump/database
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    networks:
+      twitter_articles:
+        ipv4_address: 172.24.0.4 #<or your-docker-fixed-local-ipv4_address>
+    volumes:
+      - ./data:/data/db
+    environment:
+      - TZ=Europe/Athens
+  pythonscript:
+    restart: always
+    build: ./python
+    container_name: pythonscript
+    depends_on:
+      - database
+    networks:
+      twitter_articles:
+        ipv4_address: 172.24.0.3 #<or your-docker-fixed-local-ipv4_address>
+    environment:
+      - TZ=Europe/Athens
+networks:
+  twitter_articles:
+    ipam:
+      config:
+        - subnet: 172.24.0.0/24 #<or your-docker-fixed-local-subnet>

@@ -1,0 +1,30 @@
+<div class="dateBox">
+  <div class="pickHour">
+    <div
+      *ngFor="let hour of hoursToPick; let idx = index"
+      style="display: inline"
+    >
+      <div
+        (click)="getHourBtnClicked(hour)"
+        class="singleHour"
+        [ngClass]="enabledHour === hour ? 'buttonClicked' : ''"
+      >
+        {{ hour | date: "HH:mm":"+0000" }}
+      </div>
+      <div class="interpunct" *ngIf="idx + 1 !== hoursToPick.length">·</div>
+    </div>
+  </div>
+
+  <input
+    *ngIf="minMaxDates"
+    class="datePicker"
+    type="date"
+    id="start"
+    name="start"
+    value="{{ currentDate_forInput }}"
+    [max]="minMaxDates.max_date | date: 'YYYY-MM-dd':'+0000'"
+    [min]="minMaxDates.min_date | date: 'YYYY-MM-dd':'+0000'"
+    [ngModel]="dt"
+    (ngModelChange)="modelChanged($event)"
+  />
+</div>

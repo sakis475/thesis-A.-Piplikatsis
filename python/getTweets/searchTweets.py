@@ -1,7 +1,3 @@
-#syllegei Tweets gia th frash pu thelume (query), kai trofodotei 
-#me append to tweetsData me to plhtmos tweets (max_tweets) p thelume
-
-#7 requests/100 tweets, 180 requests/15min
 import pandas as pd
 import datetime
 
@@ -23,23 +19,27 @@ def logging(e):
 
     logging.debug(e)
 
-
+#Πραγματοποιεί σύνδεση στο Twitter API και αναζητεί tweets με συγκεκριμένο κλειδί αναζήτησης
 def handleAuthTweeterAndSearch(query, max_tweets):
     
     import tweepy
-    auth = tweepy.OAuthHandler("4GqyMasQ288NdY6HhBo0HqRus", "8TJMxkatgFFaH7OM3S8KeqTml5PXg5GL8EzpWZPhYW8P2BGHJ2")
-    auth.set_access_token("833696769884160003-QMJy73JFNVt2fWVPmQ1YlXKi7TdfoqF", "hvjZJwwAUQdmVE1oFmr1wLTeCtCcmy15c0ADdWU0EOCvH")
+    auth = tweepy.OAuthHandler("your_consumer_key", "your_consumer_secret")
+    auth.set_access_token("your_key", "your_secret")
 
     api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
     #tweepy.debug(False)
     time.sleep(1)
+
+    #Αναζητούνται tweets για μία τάση, με τις επιλογές εξαίρεσης retweets, 
+    # τύπος αναζήτησης σε πρόσφατα (recent) tweets, το mode των tweet να επιστρέφει το πλήρες κείμενο (extended), και να επιλέγει tweets στα Ελληνικά. 
+    #Τα max_tweets είναι το μέγιστο όριο tweets που ζητούνται να κατεβαστούν.
     searched_tweets = [status._json for status in tweepy.Cursor(api.search,  q=query+'-filter:retweets', result_type="recent", tweet_mode="extended", lang='el').items(max_tweets)]
     
     return searched_tweets
 
 
 
-
+#Κατεβάζει tweets με συγκεκριμένο κλειδί αναζήτησης και μέγιστο πλήθος
 def searchTweets(query, max_tweets):
     
     tweetsData = pd.DataFrame()
@@ -58,18 +58,18 @@ def searchTweets(query, max_tweets):
 
     
     
-    
+    #Μετατροπεί των δεδομένων στην επιθυμητή μορφή
     for searchFound in searched_tweets:
-        # pairnw to full_text aneksartita an einai tweet h retweet
-        search_tweetsFullText = searchFound["full_text"];
-        search_tweetID = searchFound["id_str"];
+        
+        search_tweetsFullText = searchFound["full_text"]
+        search_tweetID = searchFound["id_str"]
         created_at = searchFound["created_at"]
         created_at = datetime.datetime.strptime(created_at, '%a %b %d %H:%M:%S %z %Y')
         created_at = created_at.strftime('%Y-%m-%d %H:%M:%S')
         created_at = datetime.datetime.strptime(created_at, '%Y-%m-%d %H:%M:%S')
         dateSearched = getDate()
         
-        # elegxw an einai tweet h retweet gia na parw to full_text kai oxi to truncated
+        
         if search_tweetsFullText[0:2] != "RT":
             hashtags = re.findall("([#][\w_-]+)",search_tweetsFullText)
             tweetsData = tweetsData.append({'dateSearched': dateSearched, "date": created_at,"fullText": search_tweetsFullText, "tweetID": search_tweetID, "userID": searchFound["user"]["id_str"], "userScreenName": searchFound["user"]["screen_name"], "RT": False, "RTCount": searchFound["retweet_count"], "searchQuery": query, "hashtags": hashtags},ignore_index=True,sort=False)
@@ -78,5 +78,5 @@ def searchTweets(query, max_tweets):
             hashtags = re.findall("([#][\w_-]+)",searchHelper)
             tweetsData = tweetsData.append({"dateSearched": dateSearched,"date": created_at, "fullText": searchHelper, "tweetID": search_tweetID, "userID": searchFound["user"]["id_str"], "userScreenName": searchFound["user"]["screen_name"], "RT": True, "RTCount": searchFound["retweet_count"], "searchQuery": query, "hashtags": hashtags},ignore_index=True,sort=False)
         else:
-            print("error thanos..")
-    return tweetsData;
+            print("error..")
+    return tweetsData

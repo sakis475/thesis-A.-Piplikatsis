@@ -17,17 +17,22 @@ def getHttpReq(url, retrys):
     r = requests.get(url)
     return r
 
+#Κατέβασμα όλων των άρθρων και των μεταδεδομένων από μία σελίδα του skai.gr
 def getArticleInPage_skaigr(page):
     
+    #Κατεβαίνει μια σελίδα του ειδησεογραφικού
     try:
         source = requests.get(' https://www.skai.gr/newsfeed?page='+str(page)).text
     except:
         return pd.DataFrame(), getDate()    
     
+    #Εισαγωγή της σελίδας του ειδησεογραφικού στην BeautifulSoup βιβλιοθήκη με lxml parser
     soup = BeautifulSoup(source, 'lxml')
     
     df = pd.DataFrame(columns = ['title', 'summary', 'date', 'category', 'link', 'article', 'source'])
     
+
+    #Αναζήτηση και αποθήκευση σε μεταβλητές όλων των επιμέρων στοιχείων του ειδησεογραφικού
     for article in soup.find_all('div', class_= 'cmnArticleTitlePad'):
         
         category = ''
@@ -44,7 +49,7 @@ def getArticleInPage_skaigr(page):
             date = date.strftime('%Y-%m-%d %H:%M:%S')
             date = datetime.datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
 
-
+            #Κατεβαίνει η σελίδα που περιέχει το άρθρο
             articleLink = requests.get(link).text.strip()
             soupArticleMain = BeautifulSoup(articleLink, 'lxml')
         
@@ -79,9 +84,10 @@ def getArticleInPage_skaigr(page):
     
     return df, minDate
 
+
+#Κατέβασμα όλων των άρθρων και των μεταδεδομένων από εισαγώμενη ημερομηνία και μετά του skai.gr
 def getArticles_skaigr(fromDate,limitPage):
-    #ta promoted='false' einai auta p mpenun me taksinomhmeno date
-    #if(df.loc[filtDateRange].loc[filtPromoted].shape[0] == 0):
+    
     
     df = pd.DataFrame(columns = ['title', 'summary', 'date', 'category', 'link', 'article', 'source'])
     
@@ -99,7 +105,7 @@ def getArticles_skaigr(fromDate,limitPage):
         try:
             if(minDateSinglePage <= fromDate ):
                 print('stopped searching at page: ' + str(i+1))
-                break;
+                break
         except:
             print('catch date type: ',type(minDateSinglePage))
             print('catch date: ',minDateSinglePage)
@@ -113,4 +119,4 @@ def getArticles_skaigr(fromDate,limitPage):
     
     print('Number of articles found: ', df.shape[0])
     
-    return df;
+    return df

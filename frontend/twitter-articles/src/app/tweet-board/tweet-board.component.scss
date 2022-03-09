@@ -1,0 +1,84 @@
+.tweetsBoard {
+  background-color: rgb(200, 228, 228);
+  border-radius: 10px;
+  width: 400px;
+  min-height: 400px;
+}
+
+.trend {
+  margin: 10px 20px 0 20px;
+  padding: 8px;
+  background-color: rgb(201, 235, 235);
+  border-radius: 6px;
+}
+
+.trend:hover {
+  background-color: rgb(176, 209, 209);
+  cursor: pointer;
+}
+
+a.nostyle:link {
+  text-decoration: inherit;
+  color: inherit;
+}
+
+a.nostyle:visited {
+  text-decoration: inherit;
+  color: inherit;
+}
+
+.screenName {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.date {
+  color: rgb(80, 80, 80);
+}
+
+.retweet {
+  display: flex;
+  margin: 6px 0 6px 0;
+  font-size: 24px;
+  color: rgb(80, 80, 80);
+
+  align-items: center;
+}
+
+.retweet:hover {
+  color: green;
+}
+
+.retweetNumber {
+  display: inline;
+  margin: 0 0 0 4px;
+  font-size: 12px;
+}
+
+.searchQuery {
+  color: rgb(61, 61, 61);
+  background-color: rgb(114, 167, 167);
+  padding-left: 12px;
+}
+
+h2 {
+  padding: 12px 12px 6px 12px;
+  margin: 0;
+  border-radius: 2px;
+}
+h4 {
+  margin: 0;
+  padding: 2px 0 2px 12px;
+  font-size: 12px;
+  color: rgb(29, 29, 29);
+}
+
+.fulltext {
+  margin: 4px 0 0 0;
+  font-size: 12px;
+  font-family: Helvetica;
+}
+
+.fa-twitter:hover {
+  color: #1da1f2;
+}

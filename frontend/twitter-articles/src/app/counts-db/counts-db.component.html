@@ -1,0 +1,37 @@
+<h1 class="globalTitle title">
+  &#10097;&#10097; Κάποια στατιστικά για το μέγεθος του εγχειρήματος
+</h1>
+
+<div *ngIf="counts" class="infoCountsBox">
+  <div class="singleBox">
+    <i
+      class="far fa-newspaper"
+      style="font-size: 50px; color: rgb(255, 113, 47)"
+    ></i>
+
+    <p class="numberData">{{ counts.countArticles | number }}</p>
+
+    <p class="countExplanation">άρθρα ελέχθηκαν</p>
+  </div>
+
+  <div class="singleBox">
+    <i class="fab fa-twitter" style="font-size: 50px; color: #1da1f2"></i>
+    <p class="numberData">{{ counts.countTweets | number }}</p>
+    <p class="countExplanation">διαφορετικά tweets ελέχθηκαν</p>
+  </div>
+
+  <div class="singleBox">
+    <i class="fas fa-hashtag" style="font-size: 50px; color: #056382"></i>
+    <p class="numberData">{{ counts.countTrends | number }}</p>
+    <p class="countExplanation">διαφορετικές τάσεις σημειώθηκαν</p>
+  </div>
+
+  <div class="singleBox">
+    <i
+      class="fas fa-cogs"
+      style="font-size: 50px; color: rgb(138, 138, 138)"
+    ></i>
+    <p class="numberData">{{ counts.countResults | number }}</p>
+    <p class="countExplanation">ξεχωριστές αναζητήσεις εξετάστηκαν</p>
+  </div>
+</div>

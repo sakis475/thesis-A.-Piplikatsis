@@ -16,7 +16,7 @@ const TopSimilTrendsSchema = require('./models/TopSimilTrends');
 const countStatsSchema = require('./models/countStats');
 const sourcesScoreSchema = require('./models/cosSimilScores');
 
-//Connect to database
+//Σύνδεση στο database
 connectDB();
 
 const app = express();
@@ -56,10 +56,11 @@ app.get('/', (req, res) => {
 });
 
 let bestResultsDate = '';
-// app.post('/', (req, res) => {
-//   console.log('POST work!!!');
-// });
 
+//Επιστρέφει τα αποτελέσματα που έχουν επιλεχτεί για μία ημερομηνία
+//Μόνο τα fields που αφορούν τα trends
+//Αν δεν δωθεί ημερομηνία τότε επιστρέφονται τα αποτελέσματα
+//της τελευταίας ημερομηνίας
 app.get('/trends', function (req, res, next) {
   if (req.query.data == '') {
     results
@@ -89,7 +90,6 @@ app.get('/trends', function (req, res, next) {
     bestResultsDate = req.query.data;
 
     results.find(
-      //resultCompletedDate: resultCompletedDate
       { bestResultsDate: bestResultsDate },
       '-_id searchQuery rank volume freshness_trend dateDiscovered_trend bestResultsDate',
       {
@@ -108,6 +108,8 @@ app.get('/trends', function (req, res, next) {
   }
 });
 
+//Επιστρέφει τα αποτελέσματα που έχουν επιλεχτεί για μία ημερομηνία
+//Μόνο τα fields που αφορούν τα articles
 app.get('/articles', function (req, res, next) {
   results.find(
     { bestResultsDate: bestResultsDate },
@@ -122,6 +124,8 @@ app.get('/articles', function (req, res, next) {
   );
 });
 
+//Επιστρέφει τα αποτελέσματα που έχουν επιλεχτεί για μία ημερομηνία
+//Μόνο τα fields που αφορούν τα tweets
 app.get('/tweets', function (req, res, next) {
   topTweets.find(
     { bestResultsDate: bestResultsDate },
@@ -138,11 +142,11 @@ app.get('/tweets', function (req, res, next) {
   );
 });
 
+//Ψάχνει όλες τις τάσεις της τελευταίας εβδομάδας ή
+//την πορεία μίας συγκεκριμένης τάσης σε σχέση με τον χρόνο
 app.get('/searchquery', function (req, res, next) {
   const hashtag = req.query.data;
 
-  //results.distinct('bestResultsDate', function (error, dates) {
-  //bestResultsDate = dates.sort().reverse()[parseInt(req.query.data)];
   if (hashtag) {
     searchQuery.find(
       { hashtag: hashtag },
@@ -170,6 +174,7 @@ app.get('/searchquery', function (req, res, next) {
   }
 });
 
+//Ψάχνει στην ΒΔ τάσεις που βρέθηκαν με μεγάλη σχετικότητα με κάποιο άρθρο
 app.get('/topsimiltrends', function (req, res, next) {
   topSimilTrends.find({}, function (err, result) {
     res.send(JSON.stringify(result));
@@ -212,6 +217,8 @@ function makeRegexSearch(searchKeyword) {
 
 const searchKeywords = ['ελλάδα'];
 
+// Ψάχνει στην βάση δεδομένων αποτελέσματα με κλειδιά στα πεδία τίτλος του άρθρου ή τίτλο τάσης
+// και επιστρέφει τα δεδομένα στον client
 app.post('/searcharticlesbykeywords', function (req, res, next) {
   const searchKeywords = req.body.searchKeywords.split(' ');
   const hashtagKeyword = req.body.searchKeywords;
@@ -292,6 +299,8 @@ app.post('/searcharticlesbykeywords', function (req, res, next) {
   }
 });
 
+//Επιστρέφει στον client την max και min ημερομηνίες των αποτελεσμάτων
+//αυτό με σκοπό για να δωθεί το ημερομηνιακό φάσμα διαθέσιμων αποτελεσμάτων
 app.get('/daterangeresults', (req, res) => {
   results.aggregate(
     [
@@ -314,6 +323,7 @@ app.get('/daterangeresults', (req, res) => {
   );
 });
 
+//Επιστρέφει τις χρονοσημάνσεις διάθεσιμων αποτελεσμάτων για μία συγκεκριμένη ημέρα
 app.post('/resultdates', (req, res) => {
   const date = dayjs(new Date(req.query.data));
 
@@ -329,7 +339,7 @@ app.post('/resultdates', (req, res) => {
     });
 });
 
-//count tweets, count articles...
+//πλήθος tweets, πλήθος articles...
 app.get('/countstats', (req, res) => {
   countStats
     .find({})
@@ -339,7 +349,7 @@ app.get('/countstats', (req, res) => {
     });
 });
 
-//sources score of cosine similarity...
+//Επιστρέφει την βαθμολογία των ειδησεογραφικών για το πόσο ακολουθούν την πλατφόρμα Twitter
 app.get('/sourcesscore', (req, res) => {
   sourcesScore
     .find({})
@@ -349,6 +359,7 @@ app.get('/sourcesscore', (req, res) => {
     });
 });
 
+//Βρίσκει το καλύτερο αποτέλεσμα συσχέτισης μίας τάσης με κάποιο άρθρο και το επιστρέφει στον client
 app.get('/gettrendscorrespondingarticle', (req, res) => {
   const trend = req.query.data;
   results
@@ -364,7 +375,8 @@ app.get('/gettrendscorrespondingarticle', (req, res) => {
     });
 });
 
-//repeated trends
+//Eπιστρέφει τις επαναλαμβανόμενες τάσεις των τελευταίων τριών ημερών
+// ή επιστρέφει τις ΜΗ επαναλαμβανόμενες τάσεις των τελευταίων τριών ημερών
 app.get('/freshnesstrend', (req, res) => {
   const freshness = req.query.data;
 

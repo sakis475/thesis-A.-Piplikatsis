@@ -3,8 +3,9 @@ import pandas as pd
 import datetime
 import time
 
-auth = tweepy.OAuthHandler("4GqyMasQ288NdY6HhBo0HqRus", "8TJMxkatgFFaH7OM3S8KeqTml5PXg5GL8EzpWZPhYW8P2BGHJ2")
-auth.set_access_token("833696769884160003-QMJy73JFNVt2fWVPmQ1YlXKi7TdfoqF", "hvjZJwwAUQdmVE1oFmr1wLTeCtCcmy15c0ADdWU0EOCvH")
+auth = tweepy.OAuthHandler("your_consumer_key", "your_consumer_secret")
+auth.set_access_token("your_key", "your_secret")
+
 
 api = tweepy.API(auth)
 

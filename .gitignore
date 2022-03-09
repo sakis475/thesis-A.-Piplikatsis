@@ -2,3 +2,5 @@ hostSettingsREADME
 mongoSeedSnippet.txt
 *.bson
 *.json
+docker-compose.yml
+data

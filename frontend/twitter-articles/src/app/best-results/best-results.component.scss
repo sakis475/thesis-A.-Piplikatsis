@@ -1,0 +1,68 @@
+.titleBestResults {
+  margin: 0 0 100px 0;
+  text-align: center;
+}
+
+.resultsBox {
+  display: grid;
+  gap: 30px;
+  grid-template-columns: auto auto auto;
+}
+
+.title {
+  margin: 0;
+}
+.legend {
+  margin: 2px 0 20px 0;
+  font-size: 16px;
+  color: rgb(58, 58, 58);
+}
+
+.scrollBestResultsBox {
+  overflow-y: scroll;
+  height: 800px;
+  width: 500px;
+  border: solid 1px black;
+}
+
+.bestResults {
+  margin: 12px 3px 12px 3px;
+  border: dotted 3px black;
+}
+
+.trendText {
+  margin: 0;
+  font-size: 18px;
+}
+
+.articleText {
+  margin: 0;
+  font-size: 14px;
+}
+
+i {
+  font-size: 32px;
+  height: 32px;
+  width: 32px;
+  margin: 0;
+  color: #1da1f2;
+}
+.newspaperIcon {
+  height: 34px;
+}
+
+.gridTrend {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background-color: #a5dafa;
+  padding: 10px;
+}
+
+.gridArticle {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background-color: #fac5a5;
+  padding: 10px;
+}

@@ -1,0 +1,143 @@
+.titleSearch {
+  text-align: center;
+  display: block;
+  margin: 0 150px 50px 150px;
+}
+
+.ΜΗ-ΣΧΕΤΙΚΟ {
+  background-color: rgb(255, 98, 98);
+  padding: 4px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.ΛΙΓΟ-ΣΧΕΤΙΚΟ {
+  background-color: rgb(255, 209, 209);
+  padding: 4px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.ΣΧΕΤΙΚΟ {
+  background-color: rgb(186, 255, 82);
+  padding: 4px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.ΠΟΛΥ-ΣΧΕΤΙΚΟ {
+  background-color: rgb(102, 255, 102);
+  padding: 4px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.ΕΞΑΙΡΕΤΙΚΑ-ΣΧΕΤΙΚΟ {
+  background-color: rgb(0, 255, 0);
+  padding: 4px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.searchBox {
+  text-align: end;
+  font-size: 20px;
+  margin: 0 10% 0 10%;
+}
+#toggleSearch {
+  display: block;
+  border: none;
+  margin: 3px 0 20px 0;
+  padding: 0;
+  font-size: 22px;
+}
+.searchResultsBox {
+}
+
+.articleTitle {
+  margin: 3px 0 3px 0;
+  font-size: 16px;
+}
+.info {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  margin: 7px 0 7px 0;
+}
+
+.similBox {
+  border: solid 1px black;
+}
+
+.simil {
+  display: flex;
+  justify-content: center;
+  font-size: 18px;
+}
+.with {
+  display: block;
+  text-align: center;
+  font-size: 16px;
+}
+
+.searchQuery {
+  display: block;
+  text-align: center;
+  font-size: 19px;
+}
+
+.search-input {
+  width: 50%;
+  font-size: 20px;
+  padding: 10px;
+  margin: 0 0 0 0;
+  border-radius: 10px;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+.separator {
+  margin: 20px 0 20px 0;
+  width: 60%;
+}
+
+#searchTable {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#searchTable td,
+#searchTable th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#searchTable tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#searchTable tr:hover {
+  background-color: #ddd;
+}
+
+#searchTable th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04aa6d;
+  color: white;
+}
+
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header {
+  cursor: pointer;
+}
+
+.fa-chevron-up {
+  color: black;
+}

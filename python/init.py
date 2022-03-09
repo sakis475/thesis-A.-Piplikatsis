@@ -28,8 +28,7 @@ from getArticles import getALLarticles
 import time
 import datetime
 
-#elegxos an vrethike kainourgio TREND poy den yparxei sta results
-#!opote prepei na ginei deep search sta articles!
+#Ελέγχει αν βρέθηκαν καινούργιες τάσεις που δεν υπάρχει αποθηκευμένη στην ΒΔ και τις επιστρέφει
 def trendForDeepSearch(constDate, trendsTopFive):
     
     fromDate_results = constDate - datetime.timedelta(days = 7)
@@ -51,38 +50,52 @@ def init():
     constDate = getDate()
     
     
+    #Κατεβαίνουν οι πρώτες πέντε τάσεις από το Twitter API
+
     ### get hashtags ####
     trendsTopFive = getLiveTrends().sort_values(by=['rank']).head(5)
     saveTrendsDB(trendsTopFive)
     
 
+    #Κατεβαίνουν tweets για αυτές τις πρώτες πέντε τάσεις
+
     #### get tweets ####
     tweetsToSearch = searchHashtagsWithinDay(trendsTopFive, trendsTopFive['dateDownloaded'].iloc[0])
 
+
+
     ###### DOWNLOAD articles ####
 
-    #to date orio pou tha psaksei 'fromDate' pisw sta arthra
+    #Η μεταβλητή επιλέγει πόσο πίσω να ψάξει για άρθρα στα ειδησεογραφικά με βάση την προηγούμενη φορά που κατέβασε άρθρα.
     fromDate_lastDownloadArticles = getArticleDownloadDateLAST_DB() - datetime.timedelta(hours = 2)
 
+
+    #Αποθηκεύονται όλα τα άρθρα στην μεταβλητή articles
     articles = getALLarticles(fromDate_lastDownloadArticles)
 
-    #to date pou ksekinisa na psaxnw arthra twra (apothikeush sto DB)
+    #Αποθήκευση της ημερομηνίας που κατέβηκαν μόλις τώρα τα άρθρα.
     saveArticleDownloadDateDB( constDate )
-
+    #Αποθήκευση των άρθρων που κατέβηκαν στην ΒΔ.
     saveArticlesDB(articles)
 
-    #main job,
-    #for all trends
-    #get latest tweets
-    #and for each source compare the trends
+
+
+    ########### ΚΥΡΙΑ ΔΙΕΡΓΑΣΙΑ ####################
+   
+
+    #Αρχικά αρχικοποιείται ένα άδειο dataframe που στην συνέχεια θα γεμίσει με τα αποτελέσματα του αλγόριθμου
     results = pd.DataFrame()
+
+   
     trendListDeepSearch = trendForDeepSearch(constDate , trendsTopFive)
+
+    #Για κάθε τάση, παίρνει τα tweets της και τα συγκρίνει με όλα τα άρθρα
     for searchQuery in trendsTopFive['hashtag'].unique():
 
         groupTweetsOfHashtag = tweetsToSearch[tweetsToSearch['searchQuery'] == searchQuery]
 
-        #an einai true tote psaxnei pisw x meres sta arthra
-        #deep search
+        #Οι τάσεις που είναι καινούργιες για την εφαρμογή κάνουν εξοχυνιστική αναζήτηση σε άρθρα έως τρεις ημέρες πίσω.
+        #Αλλιώς αν είναι τάση που έχει ξανασυγκριθεί με άρθρα τοτε γίνεται αναζήτηση μόνο στα νεοσυλλεχθέντα άρθρα.
         if(searchQuery in trendListDeepSearch):
             print('DOING DEEP SEARCH FOR "', searchQuery, '"')
             fromDate = constDate - datetime.timedelta(days = 3)
@@ -91,13 +104,15 @@ def init():
             fromDate = fromDate_lastDownloadArticles
             TillDate = constDate
 
-        #get all articles from all sources within date range, (TillDate actually means till Now Date, and fromDate how back in time, to get articles)    
+        
         articles = getArticlesDB(fromDate,TillDate).sort_values(by='date')
 
         for source in articles['source'].unique():
                 print('source: ', source, ', searchQuery: ', searchQuery)
                 try:
-                    similResult = similarity(articles[articles['source'] == source], groupTweetsOfHashtag, searchQuery) #note: every time article date range might change, cause of trendToDeepSearch
+
+                    #Επιστρέφονται τα αποτελέσματα από την συσχέτιση άρθρων της δοθείσας πηγής ειδησεογραφικου (μία από τις πέντε, από την αρχή με την σειρά) και τα tweets μίας τάσης
+                    similResult = similarity(articles[articles['source'] == source], groupTweetsOfHashtag, searchQuery) 
                 except Exception as e:
                     print('source ', source, ' with searchQuery: ', searchQuery, ', propably something wrong with tweet clean..', e)
                     print('skipping')
@@ -112,7 +127,8 @@ def init():
 
 
 
-
+    #Ένα τελευταίο φιλτράρισμα στα αποτελέσματα.
+    #Για όλες τις πηγές ειδησεογραφικών, και για όλες τις διαφορετικές τάσεις επιλέγεται αυτό με το καλύτερο αποτέλεσμα
     results_all_sources = pd.DataFrame()
 
     sources = ['protothema.gr', 'enikos.gr', 'in.gr', 'kathimerini.gr', 'skai.gr']
@@ -133,5 +149,5 @@ def init():
     
     return results_all_sources
 
-#results
-#results.sort_values(by='cosSimil', ascending = False)
+    ########### ΤΕΛΟΣ ΚΥΡΙΑΣ ΔΙΕΡΓΑΣΙΑΣ ####################
+

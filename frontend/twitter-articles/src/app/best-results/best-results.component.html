@@ -1,0 +1,95 @@
+<h1 class="globalTitle titleBestResults">
+  &#10097;&#10097; Πίνακες διάφορων αποτελεσμάτων
+</h1>
+
+<div class="resultsBox">
+  <div class="highCosResults">
+    <h2 class="title">Οι τάσεις που βρέθηκαν με μεγάλη σχετικότητα</h2>
+    <h3 class="legend">
+      Πιθανώς το άρθρο να δείχνει για ποιό πράγμα μιλάει η τάση
+    </h3>
+
+    <div class="scrollBestResultsBox">
+      <div class="bestResults" *ngFor="let result of highCosResults">
+        <div class="gridTrend">
+          <i class="fab fa-twitter" aria-hidden="true"></i>
+          <h3 class="trendText">
+            {{ result.searchQuery }}
+          </h3>
+        </div>
+
+        <div class="gridArticle">
+          <img class="newspaperIcon" src="../../assets/newspaper.png" alt="" />
+          <h3 class="articleText">
+            <a
+              href="{{ result.articleLink }}"
+              target="_blank"
+              rel="noopener noreferrer"
+              >{{ result.articleTitle }}</a
+            >
+          </h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="repeatedTrendsResults">
+    <h2 class="title">Οι τάσεις που επαναλαμβάνονται</h2>
+    <h3 class="legend">
+      Τάσεις των τελευταίων 3 ημερών που έχουν ξαναεμφανιστεί στο παρελθόν
+    </h3>
+
+    <div class="scrollBestResultsBox">
+      <div class="bestResults" *ngFor="let result of repeatedTrendsResults">
+        <div class="gridTrend">
+          <i class="fab fa-twitter" aria-hidden="true"></i>
+          <h3 class="trendText">
+            {{ result.searchQuery }}
+          </h3>
+        </div>
+
+        <div class="gridArticle">
+          <img class="newspaperIcon" src="../../assets/newspaper.png" alt="" />
+          <h3 class="articleText">
+            <a
+              href="{{ result.articleLink }}"
+              target="_blank"
+              rel="noopener noreferrer"
+              >{{ result.articleTitle }}</a
+            >
+          </h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="freshTrendsResults">
+    <h2 class="title">Οι καινούργιες τάσεις των τελευταίων 3 ημερών</h2>
+    <h3 class="legend">
+      Δείχνει τι θέματα απασχολούν το twitter τις τελευταίες 3 μέρες
+    </h3>
+
+    <div class="scrollBestResultsBox">
+      <div class="bestResults" *ngFor="let result of freshTrendsResults">
+        <div class="gridTrend">
+          <i class="fab fa-twitter" aria-hidden="true"></i>
+          <h3 class="trendText">
+            {{ result.searchQuery }}
+          </h3>
+        </div>
+
+        <div class="gridArticle">
+          <img class="newspaperIcon" src="../../assets/newspaper.png" alt="" />
+          <h3 class="articleText">
+            <a
+              href="{{ result.articleLink }}"
+              target="_blank"
+              rel="noopener noreferrer"
+              >{{ result.articleTitle }}</a
+            >
+          </h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

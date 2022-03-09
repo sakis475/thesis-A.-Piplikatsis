@@ -1,0 +1,66 @@
+<h1 class="title globalTitle">
+  &#10097;&#10097; Πατήστε πάνω σε κάποια τάση για να δείτε την πορεία του στην
+  κατάταξη σε σχέση με το χρόνο
+</h1>
+
+<div class="gridWrapper">
+  <div class="myChart">
+    <canvas id="myChart" width="700px" height="400px"></canvas>
+  </div>
+  <div class="allButtons">
+    <h3>Όλες οι Τάσεις της τελευταίας εβδομάδας</h3>
+    <button
+      *ngFor="let hashtag of availableHashtags"
+      class="button"
+      (click)="onClick(hashtag)"
+    >
+      {{ hashtag }}
+    </button>
+  </div>
+</div>
+
+<div class="singleResult" *ngIf="singleBestResult">
+  <h3 class="headerforSingleResult">
+    Καλύτερο αποτέλεσμα για τη τάση:
+    <span
+      style="
+        background-color: rgb(3, 46, 7);
+        color: white;
+        font-size: 28px;
+        padding: 5px;
+      "
+      >{{ singleBestResult.searchQuery }}
+    </span>
+  </h3>
+  <div class="searchResultsBox">
+    <table class="singleDataTable">
+      <tr>
+        <th>Άρθρο</th>
+        <th>Πηγή</th>
+        <th>Κατηγορία</th>
+        <th>Ημερομηνία Άρθρου</th>
+        <th>cosSimil</th>
+        <th>Τάση</th>
+      </tr>
+
+      <tr>
+        <td>
+          <a href="{{ singleBestResult.articleLink }}">{{
+            singleBestResult.articleTitle
+          }}</a>
+        </td>
+        <td>{{ singleBestResult.articleSource }}</td>
+        <td>{{ singleBestResult.articleCategory }}</td>
+        <td>
+          {{ singleBestResult.articleDate | date: "dd/MM HH:mm":"+0000" }}
+        </td>
+        <td>
+          <div class="{{ singleBestResult.cosSimil | similarity }}">
+            {{ singleBestResult.cosSimil | similarity }}
+          </div>
+        </td>
+        <td>{{ singleBestResult.searchQuery }}</td>
+      </tr>
+    </table>
+  </div>
+</div>

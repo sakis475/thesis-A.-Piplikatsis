@@ -1,0 +1,41 @@
+.grid-container {
+  margin: 0;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 20px;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  background: linear-gradient(
+    45deg,
+    #66757f,
+    #00acee,
+    #36d8ff,
+    #91d0fa,
+    #a4d6f7
+  );
+}
+
+.dateChart {
+  margin: 150px 10% 0 10%;
+}
+
+.search {
+  margin: 200px 0 200px 0;
+}
+
+.bestResults {
+  display: flex;
+  margin: 150px 10% 0 10%;
+}
+
+.statsSource {
+  display: flex;
+  justify-content: center;
+  margin: 150px 0 150px 0;
+}
+
+.counts {
+  margin: 150px 22% 0 22%;
+}

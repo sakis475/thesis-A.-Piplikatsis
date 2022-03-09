@@ -1,0 +1,35 @@
+.dateBox {
+  margin-top: 5px;
+  position: relative;
+}
+
+.datePicker {
+  font-size: 15px;
+}
+
+.pickHour {
+  background-color: rgb(0, 177, 177);
+  border-radius: 3%;
+  padding: 2%;
+  width: 250px;
+  position: absolute;
+  right: 300px;
+}
+
+.singleHour {
+  display: inline;
+  font-size: 18px;
+  font-weight: 400;
+  cursor: pointer;
+  padding: 4px 0 4px 0;
+}
+
+.interpunct {
+  display: inline;
+  margin: 0 2px 0 2px;
+  font-weight: 700;
+}
+
+.buttonClicked {
+  background-color: skyblue;
+}

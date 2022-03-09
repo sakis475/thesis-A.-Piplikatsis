@@ -1,17 +1,17 @@
-#creates the regex pattern to remove every stopword
-
 from stopwords import stopWords
 import re
 #metatroph kai sort apo set se list
 def convert(set): 
     return sorted(set) 
 
+
+#Δημιουργία regex μοτίβου για καθαρισμό κειμένων από stopwords
 def rmStopwords():
-    #eisagwgh tu arxeiou me ta stopwords
+    #εισαγωγή του αρχείου με τα stopwords
     #https://github.com/explosion/spaCy/blob/master/spacy/lang/el/stop_words.py
     sw = set(stopWords) 
     sw = convert(sw)
-    #metatroph se regex
+    #μετατροπή σε regex όλων των stopwords, τέτοιο ώστε να αφαιρεί από άλλα κείμενα όλα τα παραπάνω stopwords
     pat = r'\b(?:{})\b'.format('|'.join(sw))
     pat = pat.replace("ά", 'α')
     pat = pat.replace("έ", 'ε')
@@ -21,11 +21,11 @@ def rmStopwords():
     pat = pat.replace("ύ", 'υ')
     pat = pat.replace("ώ", 'ω')
     
-    return pat;
+    return pat
 
 
 
-#clean text: stopword, new line, tabs, links, punctuation..
+#καθαρισμός κειμένου: stopword, new line, tabs, links, punctuation..
 def cleanText(tweetsData):
     #remove links
     tweetsData["fullText"] = tweetsData['fullText'].str.lower().str.replace("http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+", ' ',regex=True)
@@ -58,7 +58,7 @@ def cleanText(tweetsData):
     
     return tweetsData
 
-#clean text: new line, tabs, links, punctuation..
+#Καθαρισμός κειμένου, δίχως να αφαιρεί stopwords
 def cleanTextNoSwords(tweetsData):
     #remove links
     tweetsData["fullText"] = tweetsData['fullText'].str.lower().str.replace("http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+", ' ',regex=True)

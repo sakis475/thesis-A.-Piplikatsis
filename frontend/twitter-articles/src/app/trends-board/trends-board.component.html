@@ -1,0 +1,39 @@
+<div class="trendsBoard">
+  <!-- <h1 *ngFor="let trend of trends">{{ trend.hashtag }}</h1> -->
+  <h2><strong>Τάσεις σε Ελλάδα</strong></h2>
+
+  <div
+    *ngFor="let trend of trends; let i = index"
+    (click)="onClick(trend.searchQuery)"
+    class="trendBox"
+  >
+    <h5 class="popular">{{ i + 1 }} · Δημοφιλή</h5>
+    <h3 class="hashtag">{{ trend.searchQuery }}</h3>
+    <!-- <h5 class="notweets">{{ trend.volume | noTweets }}</h5> -->
+
+    <span
+      class="dateTrend"
+      data-tooltip="Ημερομηνία πρωτοεμφάνισης στις Τάσεις"
+      data-flow="right"
+      >{{ trend.dateDiscovered_trend | date: "d/M H:mm":"+0000" }}</span
+    >
+    <span
+      class="freshness"
+      [ngClass]="
+        trend.freshness_trend == 'new' ? 'freshnessNew' : 'freshnessOld'
+      "
+      >{{ trend.freshness_trend }}</span
+    >
+  </div>
+
+  <hr class="dividerBoardDate" />
+
+  <div class="boardDate">
+    <i
+      class="far fa-calendar-alt"
+      style="margin-right: 10px; font-size: 20px; color: rgb(0, 112, 112)"
+    ></i>
+    {{ resultsDate | date: "d/M/YY - HH:mm":"+0000" }}
+  </div>
+</div>
+<app-date-select></app-date-select>
